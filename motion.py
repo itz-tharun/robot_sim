@@ -1,12 +1,16 @@
 import math
 import random
+import matplotlib.pyplot as plt
+
 
 def simulate():
     # State (stored in radians)
-    x = 0.0
-    y = 0.0
-    theta = 0.0  
-
+    x_noisy=0.0
+    y_noisy=0.0
+    theta_noisy=0.0
+    xs_noisy=[0]
+    ys_noisy=[0]
+    
     dt = 0.1  # small time step (seconds)
 
     print("Differential Drive Motion Simulator")
@@ -29,20 +33,32 @@ def simulate():
             omega_noisy = omega + random.gauss(0, 0.02)
 
             
-            # Update orientation first
-            theta += omega_noisy * dt
+            # Update orientation with noisy (first)
+            theta_noisy += omega_noisy * dt
 
             # Normalize angle (optional but good practice)
-            theta = math.atan2(math.sin(theta), math.cos(theta))
+            theta_noisy = math.atan2(math.sin(theta_noisy), math.cos(theta_noisy))
 
-            # Update position
-            x += v_noisy * math.cos(theta) * dt
-            y += v_noisy * math.sin(theta) * dt
+            # Update position with noise
+            x_noisy += v_noisy * math.cos(theta_noisy) * dt
+            y_noisy += v_noisy * math.sin(theta_noisy) * dt
 
+            xs_noisy.append(x_noisy)
+            ys_noisy.append(y_noisy)
+            
         print(f"\nFinal state:")
-        print(f"x = {x:.3f} m")
-        print(f"y = {y:.3f} m")
-        print(f"theta = {theta:.3f} rad ({math.degrees(theta):.2f} deg)\n")
+        print(f"x = {x_noisy:.3f} m")
+        print(f"y = {y_noisy:.3f} m")
+        print(f"theta = {theta_noisy:.3f} rad ({math.degrees(theta_noisy):.2f} deg)\n")
+    return xs_noisy,ys_noisy
+    
 
 if __name__ == "__main__":
-    simulate()
+    xs_noisy,ys_noisy=simulate()
+    plt.plot(xs_noisy,ys_noisy)
+    plt.axis("equal")
+    plt.xlabel("x (m)")
+    plt.ylabel("y (m)")
+    plt.title("Robot trajectory")
+    plt.grid(True)
+    plt.show()
