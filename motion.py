@@ -1,4 +1,5 @@
 import math
+import random
 
 def simulate():
     # State (stored in radians)
@@ -23,15 +24,20 @@ def simulate():
         steps = int(T / dt)
 
         for _ in range(steps):
+            # Adding noise to motion
+            v_noisy = v + random.gauss(0, 0.05)
+            omega_noisy = omega + random.gauss(0, 0.02)
+
+            
             # Update orientation first
-            theta += omega * dt
+            theta += omega_noisy * dt
 
             # Normalize angle (optional but good practice)
             theta = math.atan2(math.sin(theta), math.cos(theta))
 
             # Update position
-            x += v * math.cos(theta) * dt
-            y += v * math.sin(theta) * dt
+            x += v_noisy * math.cos(theta) * dt
+            y += v_noisy * math.sin(theta) * dt
 
         print(f"\nFinal state:")
         print(f"x = {x:.3f} m")
