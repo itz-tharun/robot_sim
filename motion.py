@@ -10,11 +10,15 @@ def simulate():
     theta = 0.0
     xs=[0]
     ys=[0]
+    thetas=[0]
     x_noisy=0.0
     y_noisy=0.0
     theta_noisy=0.0
     xs_noisy=[0]
     ys_noisy=[0]
+    pos_error=[0]
+    ori_error=[0]
+    
     
     dt = 0.1  # small time step (seconds)
 
@@ -60,24 +64,28 @@ def simulate():
             # Update position with noise
             x += v * math.cos(theta) * dt
             y += v * math.sin(theta) * dt
-
+	    
             xs.append(x)
             ys.append(y)
+            thetas.append(theta)
+            
+            pos_error.append(math.sqrt(abs(x-x_noisy)**2+abs(y-y_noisy)**2))
+            ori_error.append(abs(theta-theta_noisy))
+            
             
         print(f"\nFinal state:")
         print(f"x = {x:.3f} m and x_noise = {x_noisy:.3f} m")
         print(f"y = {y:.3f} m and y_noise = {y_noisy:.3f} m")
         print(f"theta = {theta:.3f} rad ({math.degrees(theta):.2f} deg) and theta_noise = {theta_noisy:.3f} rad ({math.degrees(theta_noisy):.2f} deg)\n")
-    return xs,ys,xs_noisy,ys_noisy
+    return xs,ys,xs_noisy,ys_noisy,pos_error,ori_error,thetas
     
 
 if __name__ == "__main__":
-    xs,ys,xs_noisy,ys_noisy=simulate()
-
+    xs,ys,xs_noisy,ys_noisy,pos_error,ori_error,thetas=simulate()
+    
+    plt.figure()
     plt.plot(xs,ys,label="Ideal") 
-
     plt.plot(xs_noisy,ys_noisy,label="Noisy")
-
     plt.axis("equal")
     plt.xlabel("x (m)")
     plt.ylabel("y (m)")
@@ -85,3 +93,24 @@ if __name__ == "__main__":
     plt.grid(True)
     plt.legend()
     plt.show()
+    
+    
+    plt.subplot(1, 2, 1)
+    plt.plot(xs,pos_error)
+    plt.axis("equal")
+    plt.xlabel("Distance Travelled(m)")
+    plt.ylabel("Position Error(m)")
+    plt.title("Position Error Over Motion")
+    plt.grid(True)
+    plt.show()
+
+    plt.figure()
+    plt.subplot(1, 2, 2)
+    plt.plot(thetas,ori_error)
+    plt.axis("equal")
+    plt.xlabel("Orientation With respect to X axis(Rad)")
+    plt.ylabel("Orientation Error(Rad)")
+    plt.title("Orientation Error over Motion")
+    plt.grid(True)
+    plt.show()
+    
