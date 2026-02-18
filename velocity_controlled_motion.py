@@ -25,14 +25,15 @@ def simulate(x_tar,y_tar):
         theta_tar = math.atan2(dy,dx)
         e_theta = ang_wrap(theta_tar - theta)
 
-        v = kp * e_p
         omega = ktheta * e_theta
 
-        theta+= ang_wrap(omega*dt)
+        theta+= omega*dt
         theta=ang_wrap(theta)
+        if e_theta < math.radians(15) :
+            v = kp * e_p
+            x+= v*math.cos(theta)*dt
+            y+= v*math.sin(theta)*dt
 
-        x+= v*math.cos(theta)*dt
-        y+= v*math.sin(theta)*dt
 
         xp.append(x)
         yp.append(y)
