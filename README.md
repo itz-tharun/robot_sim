@@ -64,14 +64,11 @@ Here, we introduce **Feedback Control**. The robot now "senses" its distance to 
 * **Coordinate Transformation:** We convert Cartesian coordinates $(x,y)$ into Polar coordinates $(\rho, \theta)$ relative to the goal.  
   * **Distance Error:** 
   
-  $$
-  e_p = \sqrt{\Delta x^2 + \Delta y^2}
-  $$
+  $$\ e_p = \sqrt{\Delta x^2 + \Delta y^2} $$
+  
   * **Desired Heading:** 
   
-  $$
-  	theta_{tar} = \text{atan2}(\Delta y, \Delta x)
-  $$
+  $$\ theta_{tar} = \text{atan2}(\Delta y, \Delta x)$$
 * **The Heading Gate:** Industrial robots must be safe. A "Heading Gate" prevents the robot from moving forward if it isn't pointing at the target:
   
   $$\text{If } |e_\theta| > 15^\circ \implies v = 0$$
@@ -116,17 +113,13 @@ In the previous scripts, we assumed the robot could change speed instantly. In t
 
 * **The Physics:**
   
-  $$
-  \tau = J \cdot \alpha \implies \alpha = \frac{\tau}{J}
-  $$
+  $$\ tau = J \cdot \alpha \implies \alpha = \frac{\tau}{J}$$
   
   Where $\tau$ is Torque, $J$ is Inertia, and $\alpha$ is Angular Acceleration.
   
 * **PD Control Law:**
   
-  $$
-  \tau = (k_p \cdot e) + (k_d \cdot \dot{e})
-  $$
+  $$\ tau = (k_p \cdot e) + (k_d \cdot \dot{e})$$
   
   The **Proportional (**$k_p$**)** term acts like a spring pulling the robot to the goal.  
   The **Derivative (**$k_d$**)** term acts like a shock absorber (Damping), providing a "counter-torque" proportional to velocity to prevent overshooting the target.
