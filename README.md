@@ -139,8 +139,51 @@ graph TD
     B -- No --> I[Plot Response]
 ```
 
-## **Future Units**
+### **5\. efk\_localization.py — The Senses**
+**Concept:** Probabilistic Localization Under Uncertainty
+The robot now acknowledges that:
+    • Motion is noisy
+    • Sensors are imperfect
+    • State is uncertain
+Instead of assuming perfect pose knowledge, the robot maintains a belief:
+$$
+\hat{x} = \begin{bmatrix} x \ y \ \theta \end{bmatrix}
+$$
+With uncertainty:
+$$
+P = \text{Covariance Matrix}
+$$
 
-* **F5 \- Extended Kalman Filter (EKF):** Fusing Noisy Sensors with Motion Models for perfect localization.  
-* **F6 \- Obstacle Avoidance:** Using potential fields to navigate around walls.
+#### **Motion Model (Prediction Step)**
+$$
+x_{k+1} = x_k + v \cos(\theta) \Delta t
+$$
+$$
+y_{k+1} = y_k + v \sin(\theta) \Delta t
+$$
+$$
+\theta_{k+1} = \theta_k + \omega \Delta t
+$$
+With process noise:
+$$
+w_k \sim \mathcal{N}(0, Q)
+$$
 
+#### EKF Algorithm
+**Prediction**
+$$
+\hat{x}{k|k-1} = f(\hat{x}{k-1}, u_k)
+$$
+$$
+P_{k|k-1} = F P F^T + Q
+$$
+**Update**
+$$
+K = P H^T (H P H^T + R)^{-1}
+$$
+$$
+\hat{x} = \hat{x} + K(z - h(\hat{x}))
+$$
+$$
+P = (I - KH)P
+$$

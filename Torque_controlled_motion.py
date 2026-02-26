@@ -9,7 +9,7 @@ I = 1 # Moment of inertia
 M = 1 # Mass of the robot 
 k_p= 4.0 # Proportional gain for position control
 k_theta= 4.0 # Proportional gain for orientation control
-k_d= 0.1 # damping for critical damping use (K_d = 2*sqrt(I*K_theta)) = 4
+k_d= 4.0 # damping for critical damping use (K_d = 2*sqrt(I*K_theta)) = 4
 dt = 0.01 # Time step
 
 
