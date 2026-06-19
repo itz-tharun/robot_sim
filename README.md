@@ -1,4 +1,4 @@
-# **Autonomous Mobile Robot (AMR) Control Stack**
+# **Foundation of Mobile Robotics**
 
 *A First-Principles Guide to Motion, Control, and Physics*  
 This repository serves as a progressive educational journey into the world of robotics. It tracks the evolution of a robot from a "blind" mechanical system to an "intelligent" autonomous agent.
@@ -146,6 +146,7 @@ The robot now acknowledges that:
     • Sensors are imperfect
     • State is uncertain
 Instead of assuming perfect pose knowledge, the robot maintains a belief:
+
 $$
 \hat{x} = \begin{bmatrix} x \ y \ \theta \end{bmatrix}
 $$
@@ -170,14 +171,18 @@ w_k \sim \mathcal{N}(0, Q)
 $$
 
 #### EKF Algorithm
-**Prediction**
+
+**Prediction:**
+
 $$
 \hat{x}{k|k-1} = f(\hat{x}{k-1}, u_k)
 $$
 $$
 P_{k|k-1} = F P F^T + Q
 $$
-**Update**
+
+**Update:**
+
 $$
 K = P H^T (H P H^T + R)^{-1}
 $$
@@ -187,3 +192,11 @@ $$
 $$
 P = (I - KH)P
 $$
+
+# ⚠ Status
+
+This repository is currently under active development.
+
+Its goal is to build an educational robotics stack progressing from differential-drive kinematics to probabilistic localization and autonomous navigation.
+
+Development is paused while I focus on research work, but the project will continue as time permits.
